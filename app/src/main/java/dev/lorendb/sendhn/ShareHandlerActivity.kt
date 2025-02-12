@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import kotlinx.coroutines.*
+import android.widget.Toast
 
 class ShareHandlerActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,6 +19,9 @@ class ShareHandlerActivity : Activity() {
                     SendToHN(self).send(url)
                 } catch (e: Exception) {
                     Log.e("ShareHandlerActivity", "Failed to send to HN", e)
+                    GlobalScope.launch(Dispatchers.Main) {
+                        Toast.makeText(self, "Failed: ${e.message}", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import android.widget.Toast
 
 class SendToHN(private val context: Context) {
     private val client = OkHttpClient()
@@ -28,7 +29,9 @@ class SendToHN(private val context: Context) {
                 if (titles.isNotEmpty())
                     title = titles[0].text()
             } else {
-                throw FailedToLoadWebpageTitleException("Failed to load webpage")
+                GlobalScope.launch(Dispatchers.Main) {
+                    Toast.makeText(context, "Could not load page title", Toast.LENGTH_SHORT).show()
+                }
             }
             val hnUrl = "https://news.ycombinator.com/submitlink?u=$url&t=$title"
             withContext(Dispatchers.Main) {
@@ -40,6 +43,5 @@ class SendToHN(private val context: Context) {
 
     companion object {
         class InvalidUrlException(message: String) : Exception(message)
-        class FailedToLoadWebpageTitleException(message: String) : Exception(message)
     }
 }

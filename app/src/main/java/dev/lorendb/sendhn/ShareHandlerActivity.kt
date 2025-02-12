@@ -21,6 +21,6 @@ class ShareHandlerActivity : Activity() {
                 }
             }
         }
-        finish()
+        finishAndRemoveTask()
     }
 }

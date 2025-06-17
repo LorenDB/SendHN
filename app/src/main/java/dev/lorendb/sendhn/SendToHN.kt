@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import kotlinx.coroutines.*
+import java.net.URLEncoder
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.jsoup.Jsoup
@@ -33,7 +34,8 @@ class SendToHN(private val context: Context) {
                     Toast.makeText(context, "Could not load page title", Toast.LENGTH_SHORT).show()
                 }
             }
-            val hnUrl = "https://news.ycombinator.com/submitlink?u=$url&t=$title"
+            val encodedUrl = URLEncoder.encode(url, "UTF-8")
+            val hnUrl = "https://news.ycombinator.com/submitlink?u=$encodedUrl&t=$title"
             withContext(Dispatchers.Main) {
                 val hnIntent = Intent(Intent.ACTION_VIEW, Uri.parse(hnUrl))
                 context.startActivity(hnIntent)
